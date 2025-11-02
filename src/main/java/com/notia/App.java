@@ -53,6 +53,7 @@ public class App extends Application {
     private boolean chatSidebarVisible = false;
     private Assistant chatAssistant;
     private ProgressIndicator chatLoadingIndicator;
+    private Label loadingTextLabel;
 
     private ViewState currentView = ViewState.PREVIEW;
 
@@ -516,6 +517,10 @@ public class App extends Application {
         chatLoadingIndicator.setMaxSize(30, 30);
         chatLoadingIndicator.setVisible(false);
 
+        loadingTextLabel = new Label();
+        loadingTextLabel.setStyle("-fx-text-fill: #908caa; -fx-font-style: italic;");
+        loadingTextLabel.setVisible(false);
+
         chatInputField = new TextField();
         chatInputField.setPromptText("Ask about your notes...");
         chatInputField.setOnAction(e -> sendChatMessage());
@@ -527,7 +532,7 @@ public class App extends Application {
         chatSendButton.setOnAction(e -> sendChatMessage());
         chatSendButton.getStyleClass().add("chat-send-button");
 
-        HBox inputBox = new HBox(10, chatInputField, chatSendButton, chatLoadingIndicator);
+        HBox inputBox = new HBox(10, chatInputField, chatSendButton, chatLoadingIndicator, loadingTextLabel);
         HBox.setHgrow(chatInputField, Priority.ALWAYS);
         inputBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -566,6 +571,7 @@ public class App extends Application {
         chatInputField.setDisable(true);
         chatSendButton.setDisable(true);
         chatLoadingIndicator.setVisible(true);
+        setRandomLoadingText();
 
         new Thread(() -> {
             try {
@@ -582,6 +588,7 @@ public class App extends Application {
                     chatInputField.setDisable(false);
                     chatSendButton.setDisable(false);
                     chatLoadingIndicator.setVisible(false);
+                    loadingTextLabel.setVisible(false);
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
@@ -593,6 +600,7 @@ public class App extends Application {
                     chatInputField.setDisable(false);
                     chatSendButton.setDisable(false);
                     chatLoadingIndicator.setVisible(false);
+                    loadingTextLabel.setVisible(false);
                 });
                 e.printStackTrace();
             }
@@ -776,5 +784,23 @@ public class App extends Application {
                 mainSplitPane.setDividerPositions(0.2);
             }
         }
+    }
+
+    private void setRandomLoadingText() {
+        String[] funnyLoadingTexts = {
+            "Consulting the digital oracle...",
+            "Reticulating splines of knowledge...",
+            "Polishing pixels of wisdom...",
+            "Summoning the data spirits...",
+            "Brewing a fresh cup of insights...",
+            "Just a moment, my circuits are buzzing...",
+            "Asking the internet the hard questions...",
+            "Wrangling the bits and bytes...",
+            "Almost there, don't go anywhere!",
+            "Thinking really, really hard..."
+        };
+        int randomIndex = (int) (Math.random() * funnyLoadingTexts.length);
+        loadingTextLabel.setText(funnyLoadingTexts[randomIndex]);
+        loadingTextLabel.setVisible(true);
     }
 }
