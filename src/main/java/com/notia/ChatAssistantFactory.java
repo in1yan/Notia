@@ -9,10 +9,15 @@ import dev.langchain4j.model.embedding.onnx.allminilml6v2.AllMiniLmL6V2Embedding
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.rag.query.Query;
+import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.chroma.ChromaEmbeddingStore;
 import shared.Assistant;
+
+import java.util.List;
+import java.util.Collections;
 
 import static dev.langchain4j.store.embedding.chroma.ChromaApiVersion.V2;
 import static shared.Utils.*;
@@ -37,6 +42,26 @@ public class ChatAssistantFactory {
         "\n- If you're uncertain, admit it rather than making up information" +
         "\n\nRemember: You're helping users interact with THEIR OWN notes, so treat the information as their personal knowledge base.";
 
+    // Wrapper class to handle null/empty results
+    private static class SafeContentRetriever implements ContentRetriever {
+        private final ContentRetriever delegate;
+        
+        public SafeContentRetriever(ContentRetriever delegate) {
+            this.delegate = delegate;
+        }
+        
+        @Override
+        public List<Content> retrieve(Query query) {
+            try {
+                List<Content> results = delegate.retrieve(query);
+                return results != null ? results : Collections.emptyList();
+            } catch (Exception e) {
+                System.err.println("Warning: Error retrieving content from vector database: " + e.getMessage());
+                return Collections.emptyList();
+            }
+        }
+    }
+
     public static Assistant createAssistant() {
         ChatModel chatModel = GoogleAiGeminiChatModel.builder()
                 .apiKey(GEMINI_API_KEY)
@@ -52,12 +77,15 @@ public class ChatAssistantFactory {
                 .collectionName("notia-notes-collection")
                 .build();
 
-        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+        ContentRetriever baseRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
                 .maxResults(MAX_RESULTS)
                 .minScore(MIN_SCORE)
                 .build();
+        
+        // Wrap with safe retriever to handle empty results
+        ContentRetriever contentRetriever = new SafeContentRetriever(baseRetriever);
 
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(CHAT_MEMORY_SIZE);
 

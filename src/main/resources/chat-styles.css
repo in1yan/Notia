@@ -1,105 +1,118 @@
-/* Chat Sidebar Styles */
+/* Chat Sidebar Styles - Rosé Pine */
 .chat-container {
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: #191724;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-title {
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #ebbcba;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-message-user {
-    -fx-background-color: #e3f2fd;
+    -fx-background-color: #31748f;
     -fx-background-radius: 10;
     -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-message-ai {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #26233a;
     -fx-background-radius: 10;
     -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-message-system {
-    -fx-background-color: #fff3cd;
+    -fx-background-color: #f6c177;
     -fx-background-radius: 10;
     -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-sender-label {
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-text-fill: #555;
+    -fx-font-size: 11px;
+    -fx-text-fill: #e0def4;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-message-text {
-    -fx-font-size: 13px;
-    -fx-text-fill: #333;
+    -fx-font-size: 12px;
+    -fx-text-fill: #e0def4;
     -fx-wrap-text: true;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-input {
-    -fx-background-radius: 20;
+    -fx-background-color: #26233a;
+    -fx-background-radius: 16px;
     -fx-padding: 8 15 8 15;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 20;
+    -fx-border-color: #31748f;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #e0def4;
+    -fx-prompt-text-fill: #6e6a86;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
+.chat-input:focused {
+    -fx-border-color: #9ccfd8;
+    -fx-border-width: 2px;
+}
+
 .chat-send-button {
-    -fx-background-color: #2196F3;
-    -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-padding: 8 20 8 20;
+    -fx-background-color: #31748f;
+    -fx-text-fill: #e0def4;
+    -fx-background-radius: 16px;
+    -fx-padding: 6px 16px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-send-button:hover {
-    -fx-background-color: #1976D2;
+    -fx-background-color: #9ccfd8;
+    -fx-text-fill: #191724;
 }
 
 .chat-send-button:disabled {
-    -fx-background-color: #ccc;
+    -fx-background-color: #26233a;
+    -fx-text-fill: #6e6a86;
 }
 
 .chat-clear-button {
-    -fx-background-color: #f44336;
-    -fx-text-fill: white;
-    -fx-background-radius: 5;
-    -fx-padding: 5 15 5 15;
+    -fx-background-color: #eb6f92;
+    -fx-text-fill: #191724;
+    -fx-background-radius: 6px;
+    -fx-padding: 5 12 5 12;
+    -fx-font-size: 11px;
     -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .chat-clear-button:hover {
-    -fx-background-color: #d32f2f;
+    -fx-background-color: #ebbcba;
 }
 
 .chat-scroll-pane {
-    -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
+    -fx-background-color: #191724;
+    -fx-border-color: #26233a;
     -fx-border-width: 1;
     -fx-border-radius: 5;
 }
 
 .chat-scroll-pane .viewport {
-    -fx-background-color: white;
+    -fx-background-color: #191724;
 }
 
 /* Loading Animation */
 .progress-indicator {
-    -fx-progress-color: #2196F3;
+    -fx-progress-color: #ebbcba;
 }
 
 /* Global emoji font support */

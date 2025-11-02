@@ -39,10 +39,20 @@ public class VectorDB {
     }
 
     public String addTextWithId(String text, String id) {
-        TextSegment segment = TextSegment.from(text);
-        Embedding embedding = embeddingModel.embed(segment).content();
-        embeddingStore.add(id, embedding);
-        return id;
+        if (text == null || text.trim().isEmpty()) {
+            System.err.println("Warning: Cannot add null or empty text to vector database");
+            return null;
+        }
+        try {
+            TextSegment segment = TextSegment.from(text);
+            Embedding embedding = embeddingModel.embed(segment).content();
+            embeddingStore.add(id, embedding);
+            return id;
+        } catch (Exception e) {
+            System.err.println("Error adding text to vector database: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addTexts(List<String> texts) {

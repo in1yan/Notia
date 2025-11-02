@@ -1,0 +1,259 @@
+/* Rosé Pine Theme for Notia */
+
+/* Root styling - Rosé Pine color palette */
+.root {
+    -fx-base: #191724;
+    -fx-background: #1f1d2e;
+    -fx-control-inner-background: #191724;
+    -fx-accent: #ebbcba;
+    -fx-focus-color: #ebbcba;
+    -fx-faint-focus-color: #ebbcba22;
+    -fx-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* Rosé Pine Color Variables */
+/* Base: #191724 */
+/* Surface: #1f1d2e */
+/* Overlay: #26233a */
+/* Muted: #6e6a86 */
+/* Subtle: #908caa */
+/* Text: #e0def4 */
+/* Love: #eb6f92 */
+/* Gold: #f6c177 */
+/* Rose: #ebbcba */
+/* Pine: #31748f */
+/* Foam: #9ccfd8 */
+/* Iris: #c4a7e7 */
+
+/* Toolbar - Rosé Pine Surface */
+.tool-bar {
+    -fx-background-color: #26233a;
+    -fx-padding: 6px 8px;
+    -fx-spacing: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 2);
+}
+
+.tool-bar .button {
+    -fx-background-color: #31748f;
+    -fx-text-fill: #e0def4;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+.tool-bar .button:hover {
+    -fx-background-color: #9ccfd8;
+    -fx-text-fill: #191724;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 2);
+}
+
+.tool-bar .button:pressed {
+    -fx-background-color: #ebbcba;
+    -fx-text-fill: #191724;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 2, 0, 0, 1);
+}
+
+.tool-bar .separator {
+    -fx-background-color: rgba(144, 140, 170, 0.3);
+}
+
+.tool-bar .text-field {
+    -fx-background-color: #191724;
+    -fx-text-fill: #e0def4;
+    -fx-prompt-text-fill: #6e6a86;
+    -fx-background-radius: 16px;
+    -fx-padding: 5px 12px;
+    -fx-min-width: 180px;
+    -fx-border-color: #31748f;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+}
+
+.tool-bar .text-field:focused {
+    -fx-border-color: #9ccfd8;
+    -fx-border-width: 2px;
+}
+
+/* List Views - Rosé Pine Cards */
+.list-view {
+    -fx-background-color: #191724;
+    -fx-padding: 8px;
+    -fx-background-insets: 0;
+}
+
+.list-view .list-cell {
+    -fx-background-color: #26233a;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 14px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0 0 4px 0;
+    -fx-text-fill: #e0def4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #31748f;
+    -fx-text-fill: #e0def4;
+    -fx-effect: dropshadow(gaussian, rgba(49, 116, 143, 0.4), 4, 0, 0, 2);
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: #1f1d2e;
+    -fx-cursor: hand;
+    -fx-border-color: #31748f;
+    -fx-border-width: 1px;
+}
+
+.list-view .list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-effect: none;
+}
+
+/* Text Area - Rosé Pine */
+.text-area {
+    -fx-background-color: #191724;
+    -fx-background-radius: 0;
+    -fx-padding: 16px;
+    -fx-font-family: 'Segoe UI', 'Segoe UI Emoji', 'Roboto', 'Consolas', monospace;
+    -fx-font-size: 13px;
+    -fx-text-fill: #e0def4;
+    -fx-border-color: transparent;
+}
+
+.text-area:focused {
+    -fx-border-color: #31748f;
+    -fx-border-width: 0 0 0 4px;
+}
+
+.text-area .content {
+    -fx-background-color: #191724;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: #191724;
+}
+
+.text-area .scroll-pane .viewport {
+    -fx-background-color: #191724;
+}
+
+/* Scroll Bars - Rosé Pine */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #6e6a86;
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #908caa;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Split Pane - Rosé Pine dividers */
+.split-pane {
+    -fx-background-color: #1f1d2e;
+}
+
+.split-pane-divider {
+    -fx-background-color: #26233a;
+    -fx-padding: 0 1px 0 1px;
+}
+
+.split-pane-divider:hover {
+    -fx-background-color: #31748f;
+}
+
+/* Labels - Rosé Pine Typography */
+.label {
+    -fx-text-fill: #e0def4;
+    -fx-font-size: 13px;
+    -fx-font-weight: 400;
+}
+
+/* Buttons - Rosé Pine */
+.button {
+    -fx-background-color: #31748f;
+    -fx-text-fill: #e0def4;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: #9ccfd8;
+    -fx-text-fill: #191724;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 6, 0, 0, 3);
+}
+
+.button:pressed {
+    -fx-background-color: #ebbcba;
+    -fx-text-fill: #191724;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, 0, 1);
+}
+
+.button:disabled {
+    -fx-background-color: #26233a;
+    -fx-text-fill: #6e6a86;
+    -fx-effect: none;
+}
+
+/* Text Fields - Rosé Pine */
+.text-field {
+    -fx-background-color: #26233a;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 10px;
+    -fx-border-color: #31748f;
+    -fx-border-width: 0 0 2px 0;
+    -fx-text-fill: #e0def4;
+    -fx-prompt-text-fill: #6e6a86;
+}
+
+.text-field:focused {
+    -fx-border-color: #9ccfd8;
+    -fx-border-width: 0 0 2px 0;
+}
+
+/* Web View Container */
+.web-view {
+    -fx-background-color: #191724;
+    -fx-padding: 16px;
+}
+
+/* Rosé Pine Cards for sidebars */
+.card {
+    -fx-background-color: #26233a;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 2);
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    -fx-progress-color: #ebbcba;
+}
+
+/* Separators */
+.separator .line {
+    -fx-border-color: rgba(144, 140, 170, 0.3);
+    -fx-border-width: 1px;
+}

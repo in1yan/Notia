@@ -44,12 +44,192 @@ public class Database {
                     "PRIMARY KEY (note_id, tag_id)," +
                     "FOREIGN KEY (note_id) REFERENCES notes(id)," +
                     "FOREIGN KEY (tag_id) REFERENCES tags(id))");
+            
+            // Populate with example notes if database is empty
+            populateExampleNotes();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // Initialize VectorDB connection for RAG functionality
         initializeVectorDB();
+    }
+    
+    private static void populateExampleNotes() {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+            
+            // Check if database is empty
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM notes");
+            if (rs.next() && rs.getInt(1) == 0) {
+                System.out.println("Database is empty. Populating with example notes...");
+                
+                // Create example notes about Notia
+                createExampleNote(
+                    "# Welcome to Notia! 🎉",
+                    "# Welcome to Notia!\n\n" +
+                    "Notia is a **powerful markdown note-taking application** with AI-powered search capabilities.\n\n" +
+                    "## Key Features:\n" +
+                    "- ✍️ **Markdown editing** with live preview\n" +
+                    "- 🤖 **AI chatbot** powered by Google Gemini\n" +
+                    "- 🔍 **Semantic search** using RAG (Retrieval Augmented Generation)\n" +
+                    "- 🎨 **Beautiful Rosé Pine theme**\n" +
+                    "- 📁 **Categories and tags** for organization\n" +
+                    "- 😊 **Full emoji support**\n\n" +
+                    "Start creating notes and ask the AI questions about them!"
+                );
+                
+                createExampleNote(
+                    "# Getting Started with Notia",
+                    "# Getting Started with Notia\n\n" +
+                    "## Creating Notes\n" +
+                    "1. Click the **✚ New** button in the toolbar\n" +
+                    "2. Write your content in **Markdown format**\n" +
+                    "3. Click **💾 Save** to save your note\n\n" +
+                    "## Viewing Notes\n" +
+                    "- **👁 Preview**: See rendered markdown\n" +
+                    "- **✏ Edit**: Edit the raw markdown\n" +
+                    "- **⬌ Split**: See both at once\n\n" +
+                    "## Organizing Notes\n" +
+                    "Use the **☰ Sidebar** to:\n" +
+                    "- Add categories to group related notes\n" +
+                    "- Add tags for quick filtering\n" +
+                    "- Click **➕ Add** below categories/tags\n\n" +
+                    "## Deleting Notes\n" +
+                    "Select a note and click **🗑 Delete** to remove it.\n" +
+                    "The note will be deleted from both the database and AI search index."
+                );
+                
+                createExampleNote(
+                    "# AI Chat Assistant 💬",
+                    "# AI Chat Assistant\n\n" +
+                    "The AI chatbot helps you interact with your notes using natural language!\n\n" +
+                    "## How to Use:\n" +
+                    "1. Click **💬 AI Chat** button to open the sidebar\n" +
+                    "2. Type your question in the chat box\n" +
+                    "3. Press Send or hit Enter\n\n" +
+                    "## What Can You Ask?\n" +
+                    "- *\"What notes do I have about AI?\"*\n" +
+                    "- *\"Summarize my notes on markdown\"*\n" +
+                    "- *\"Find information about themes\"*\n" +
+                    "- *\"What features does Notia have?\"*\n\n" +
+                    "## How It Works:\n" +
+                    "The AI uses **RAG (Retrieval Augmented Generation)**:\n" +
+                    "1. Your notes are stored in **ChromaDB** as embeddings\n" +
+                    "2. When you ask a question, relevant notes are retrieved\n" +
+                    "3. **Google Gemini** generates responses based on your notes\n\n" +
+                    "**Note**: Make sure ChromaDB is running on port 8000!"
+                );
+                
+                createExampleNote(
+                    "# Markdown Formatting Guide",
+                    "# Markdown Formatting Guide\n\n" +
+                    "Notia supports full **CommonMark** markdown syntax.\n\n" +
+                    "## Text Formatting\n" +
+                    "- **Bold text**: `**bold**` or `__bold__`\n" +
+                    "- *Italic text*: `*italic*` or `_italic_`\n" +
+                    "- `Inline code`: `` `code` ``\n" +
+                    "- ~~Strikethrough~~: `~~text~~`\n\n" +
+                    "## Headers\n" +
+                    "```markdown\n" +
+                    "# H1 Header\n" +
+                    "## H2 Header\n" +
+                    "### H3 Header\n" +
+                    "```\n\n" +
+                    "## Lists\n" +
+                    "**Unordered:**\n" +
+                    "- Item 1\n" +
+                    "- Item 2\n" +
+                    "  - Nested item\n\n" +
+                    "**Ordered:**\n" +
+                    "1. First item\n" +
+                    "2. Second item\n\n" +
+                    "## Code Blocks\n" +
+                    "Use triple backticks:\n" +
+                    "```java\n" +
+                    "public static void main(String[] args) {\n" +
+                    "    System.out.println(\"Hello Notia!\");\n" +
+                    "}\n" +
+                    "```\n\n" +
+                    "## Quotes\n" +
+                    "> This is a blockquote\n" +
+                    "> It can span multiple lines\n\n" +
+                    "## Links\n" +
+                    "[Link text](https://example.com)\n\n" +
+                    "## Emojis\n" +
+                    "Full emoji support! 😊 🎉 💻 🚀 ✨"
+                );
+                
+                createExampleNote(
+                    "# Rosé Pine Theme 🌹",
+                    "# Rosé Pine Theme\n\n" +
+                    "Notia uses the beautiful **Rosé Pine** color scheme - a low-contrast dark theme.\n\n" +
+                    "## Color Palette:\n" +
+                    "- **Base**: `#191724` - Main background\n" +
+                    "- **Surface**: `#1f1d2e` - Slightly lighter\n" +
+                    "- **Overlay**: `#26233a` - Cards and elevated surfaces\n" +
+                    "- **Text**: `#e0def4` - Primary text color\n\n" +
+                    "## Accent Colors:\n" +
+                    "- **Rose** `#ebbcba` - Primary accent (headings, highlights)\n" +
+                    "- **Pine** `#31748f` - Interactive elements (buttons)\n" +
+                    "- **Foam** `#9ccfd8` - Links and hover states\n" +
+                    "- **Iris** `#c4a7e7` - Code syntax\n" +
+                    "- **Gold** `#f6c177` - Warnings\n" +
+                    "- **Love** `#eb6f92` - Errors\n\n" +
+                    "## Design Principles:\n" +
+                    "- **Low contrast** - Easy on the eyes for long sessions\n" +
+                    "- **Warm colors** - Cozy and comfortable\n" +
+                    "- **Clear hierarchy** - Good contrast where it matters\n\n" +
+                    "The theme is applied throughout the entire application including the chat sidebar!"
+                );
+                
+                createExampleNote(
+                    "# Technical Stack 💻",
+                    "# Technical Stack\n\n" +
+                    "Notia is built with modern Java technologies.\n\n" +
+                    "## Frontend:\n" +
+                    "- **JavaFX 21** - Modern UI framework\n" +
+                    "- **WebView** - For markdown rendering\n" +
+                    "- **CSS** - Custom Rosé Pine styling\n\n" +
+                    "## Backend:\n" +
+                    "- **H2 Database** - Embedded SQL database for notes\n" +
+                    "- **ChromaDB** - Vector database for embeddings\n" +
+                    "- **Maven** - Build and dependency management\n\n" +
+                    "## AI & ML:\n" +
+                    "- **LangChain4j** - Java framework for LLMs\n" +
+                    "- **Google Gemini 1.5 Flash** - Chat model\n" +
+                    "- **AllMiniLM-L6-v2** - Embedding model (ONNX)\n" +
+                    "- **RAG Pipeline** - Retrieval Augmented Generation\n\n" +
+                    "## Markdown:\n" +
+                    "- **CommonMark** - Parser and renderer\n" +
+                    "- **GitHub Flavored Markdown** support\n\n" +
+                    "## Setup Requirements:\n" +
+                    "```bash\n" +
+                    "# Install ChromaDB\n" +
+                    "pip install chromadb\n\n" +
+                    "# Run ChromaDB\n" +
+                    "chroma run --host :: --port 8000\n\n" +
+                    "# Set API key\n" +
+                    "$env:GEMINI_API_KEY=\"your-key-here\"\n\n" +
+                    "# Run Notia\n" +
+                    "mvn javafx:run\n" +
+                    "```"
+                );
+                
+                System.out.println("Successfully created example notes!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error populating example notes: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    private static void createExampleNote(String title, String content) {
+        Note note = new Note(0, title, content, 
+            new java.sql.Date(System.currentTimeMillis()),
+            new java.sql.Date(System.currentTimeMillis()),
+            false, false, 0);
+        saveNote(note);
     }
 
     private static void initializeVectorDB() {
@@ -162,14 +342,35 @@ public class Database {
     }
 
     private static void storeNoteInVectorDB(int noteId, Note note) {
-        if (vectorDB != null && note.getContent() != null && !note.getContent().trim().isEmpty()) {
-            try {
-                String noteText = "Note ID: " + noteId + "\nTitle: " + note.getTitle() + "\n\n" + note.getContent();
-                String embeddingId = "note_" + noteId;
-                vectorDB.addTextWithId(noteText, embeddingId);
-            } catch (Exception e) {
-                System.err.println("Warning: Failed to store note in vector database: " + e.getMessage());
-            }
+        if (vectorDB == null) {
+            System.err.println("Warning: VectorDB not initialized");
+            return;
+        }
+        
+        if (note == null) {
+            System.err.println("Warning: Cannot store null note in vector database");
+            return;
+        }
+        
+        if (note.getContent() == null || note.getContent().trim().isEmpty()) {
+            System.err.println("Warning: Note " + noteId + " has no content, skipping vector storage");
+            return;
+        }
+        
+        if (note.getTitle() == null || note.getTitle().trim().isEmpty()) {
+            System.err.println("Warning: Note " + noteId + " has no title, using 'Untitled'");
+        }
+        
+        try {
+            String title = (note.getTitle() != null && !note.getTitle().trim().isEmpty()) 
+                          ? note.getTitle() : "Untitled";
+            String noteText = "Note ID: " + noteId + "\nTitle: " + title + "\n\n" + note.getContent();
+            String embeddingId = "note_" + noteId;
+            vectorDB.addTextWithId(noteText, embeddingId);
+            System.out.println("Successfully stored note " + noteId + " in vector database");
+        } catch (Exception e) {
+            System.err.println("Warning: Failed to store note " + noteId + " in vector database: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
