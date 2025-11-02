@@ -6,10 +6,21 @@ import java.util.List;
 
 public class Database {
 
-    private static final String DB_URL = "jdbc:h2:./notia_db";
+    // MySQL connection settings - customize these via environment variables or config
+    private static final String DB_HOST = System.getenv().getOrDefault("MYSQL_HOST", "localhost");
+    private static final String DB_PORT = System.getenv().getOrDefault("MYSQL_PORT", "3306");
+    private static final String DB_NAME = System.getenv().getOrDefault("MYSQL_DATABASE", "notia_db");
+    private static final String DB_USER = System.getenv().getOrDefault("MYSQL_USER", "root");
+    private static final String DB_PASSWORD = System.getenv().getOrDefault("MYSQL_PASSWORD", "");
+    
+    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + 
+                                        "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
     private static VectorDB vectorDB;
 
     public static void initialize() {
+        // Create database if it doesn't exist
+        createDatabaseIfNotExists();
+        
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS notes (" +
@@ -21,7 +32,7 @@ public class Database {
                     "is_embedded BOOLEAN," +
                     "is_subnote BOOLEAN," +
                     "parent_id INT," +
-                    "FOREIGN KEY (parent_id) REFERENCES notes(id))");
+                    "FOREIGN KEY (parent_id) REFERENCES notes(id) ON DELETE CASCADE)");
 
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS categories (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -35,15 +46,15 @@ public class Database {
                     "note_id INT," +
                     "category_id INT," +
                     "PRIMARY KEY (note_id, category_id)," +
-                    "FOREIGN KEY (note_id) REFERENCES notes(id)," +
-                    "FOREIGN KEY (category_id) REFERENCES categories(id))");
+                    "FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE," +
+                    "FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE)");
 
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS note_tags (" +
                     "note_id INT," +
                     "tag_id INT," +
                     "PRIMARY KEY (note_id, tag_id)," +
-                    "FOREIGN KEY (note_id) REFERENCES notes(id)," +
-                    "FOREIGN KEY (tag_id) REFERENCES tags(id))");
+                    "FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE," +
+                    "FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE)");
             
             // Populate with example notes if database is empty
             populateExampleNotes();
@@ -53,6 +64,20 @@ public class Database {
 
         // Initialize VectorDB connection for RAG functionality
         initializeVectorDB();
+    }
+    
+    private static void createDatabaseIfNotExists() {
+        String rootUrl = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + 
+                        "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+        try (Connection conn = DriverManager.getConnection(rootUrl, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + DB_NAME + 
+                             " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            System.out.println("Database '" + DB_NAME + "' is ready.");
+        } catch (SQLException e) {
+            System.err.println("Error creating database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     private static void populateExampleNotes() {
@@ -242,7 +267,7 @@ public class Database {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
     public static List<Note> getAllNotes() {
